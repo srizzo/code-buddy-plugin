@@ -1,0 +1,99 @@
+<idea-plugin>
+    <id>io.github.srizzo.codebuddy.code-buddy-plugin</id>
+    <name>CodeBuddy</name>
+    <vendor url="https://github.com/srizzo/code-buddy-plugin">Samuel Rizzo</vendor>
+
+    <description><![CDATA[
+        CodeBuddy Plugin for IntelliJ.
+
+        <ul>
+            <li>Use Selection for Find</li>
+            <li>Use Selection for Replace</li>
+            <li>Find All in File/Selection</li>
+            <li>Replace All in File/Selection</li>
+            <li>Select Paragraph</li>
+            <li>Twiddle Selection</li>
+            <li>Enhanced Column Selection Mode (TextMate inspired)</li>
+        </ul>
+
+
+    ]]></description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="io.github.srizzo.codebuddy.columnmode.CrosshairCursorOnColumnModeUpdater"
+                        preload="notHeadless"/>
+    </extensions>
+
+    <actions>
+        <action id="CodeBuddySelectParagraph"
+                class="io.github.srizzo.codebuddy.selectparagraph.SelectParagraphAction"
+                text="Select Paragraph">
+            <keyboard-shortcut first-keystroke="meta alt p" keymap="$default"/>
+            <add-to-group group-id="EditorActions"/>
+        </action>
+
+        <action id="CodeBuddyTwiddleAction"
+                class="io.github.srizzo.codebuddy.twiddle.TwiddleAction"
+                text="Twiddle"
+                description="Twiddle">
+            <keyboard-shortcut first-keystroke="meta T" keymap="$default"/>
+        </action>
+
+        <action id="io.github.srizzo.codebuddy.columnmode.ToggleBlockSelectionAction"
+                text="CodeBuddy Toggle Block Selection"
+                class="io.github.srizzo.codebuddy.columnmode.ToggleBlockSelectionAction"/>
+
+        <action id="io.github.srizzo.codebuddy.columnmode.EnterColumnModeAction"
+                text="CodeBuddy Enter Column Mode"
+                class="io.github.srizzo.codebuddy.columnmode.EnterColumnModeAction"/>
+
+        <action id="io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction"
+                text="CodeBuddy Exit Column Mode"
+                class="io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction"/>
+
+        <action id="io.github.srizzo.codebuddy.columnmode.RemoveSecondaryCaretsAction"
+                text="CodeBuddy Remove Secondary Carets"
+                class="io.github.srizzo.codebuddy.columnmode.RemoveSecondaryCaretsAction"/>
+
+        <group id="CodeBuddyFindMenuAdditionsGroup">
+            <action id="io.github.srizzo.codebuddy.findreplace.UseSelectionForFindAction"
+                    class="io.github.srizzo.codebuddy.findreplace.UseSelectionForFindAction"
+                    text="Use Selection for Find">
+                <add-to-group group-id="FindMenuGroup" anchor="after" relative-to-action="ToggleFindInSelection"/>
+                <keyboard-shortcut first-keystroke="control E" keymap="$default"/>
+            </action>
+
+            <action id="io.github.srizzo.codebuddy.findreplace.UseSelectionForReplaceAction"
+                    class="io.github.srizzo.codebuddy.findreplace.UseSelectionForReplaceAction"
+                    text="Use Selection for Replace">
+                <add-to-group group-id="FindMenuGroup" anchor="after"
+                              relative-to-action="io.github.srizzo.codebuddy.findreplace.UseSelectionForFindAction"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="control shift E"/>
+            </action>
+
+            <action id="io.github.srizzo.codebuddy.findreplace.FindAllAction"
+                    class="io.github.srizzo.codebuddy.findreplace.FindAllAction"
+                    text="Find All">
+                <add-to-group group-id="FindMenuGroup" anchor="after" relative-to-action="Find"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="control alt F"/>
+            </action>
+            <action id="io.github.srizzo.codebuddy.findreplace.ReplaceAction"
+                    class="io.github.srizzo.codebuddy.findreplace.ReplaceAction"
+                    text="Replace">
+                <add-to-group group-id="FindMenuGroup" anchor="after" relative-to-action="Replace"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="control alt G"/>
+            </action>
+            <action id="io.github.srizzo.codebuddy.findreplace.ReplaceAllInSelectionAction"
+                    class="io.github.srizzo.codebuddy.findreplace.ReplaceAllInSelectionAction"
+                    text="Replace All in Selection">
+                <add-to-group group-id="FindMenuGroup" anchor="after"
+                              relative-to-action="io.github.srizzo.codebuddy.findreplace.ReplaceAction"/>
+                <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl meta G"/>
+            </action>
+        </group>
+    </actions>
+</idea-plugin>

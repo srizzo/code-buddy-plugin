@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.6.5'
+}
+
+group 'io.github.srizzo'
+version '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version '2020.3.1'
+    type 'IU'
+    plugins = ['com.google.ide-perf:1.0.3']
+    runIde.ideDirectory = "/Applications/RubyMine.app/Contents"
+
+}
+patchPluginXml {
+    changeNotes """
+      Initial release
+      
+        <ul>
+            <li>Use Selection for Find</li>
+            <li>Use Selection for Replace</li>
+            <li>Find All in File/Selection</li>
+            <li>Replace All in File/Selection</li>
+            <li>Select Paragraph</li>
+            <li>Twiddle Selection</li>
+            <li>Enhanced Column Selection Mode (TextMate inspired)</li>
+        </ul>"""
+}
+test {
+    useJUnitPlatform()
+}
+runIde {
+    jvmArgs "-Djdk.attach.allowAttachSelf=true"
+}
+publishPlugin {
+    token = System.getenv("ORG_GRADLE_PROJECT_intellijPublishToken")
+}
