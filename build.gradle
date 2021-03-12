@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'io.github.srizzo'
-version '0.0.1'
+version '0.0.1.1'
 
 repositories {
     mavenCentral()
@@ -25,17 +25,7 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Initial release
-      
-        <ul>
-            <li>Use Selection for Find</li>
-            <li>Use Selection for Replace</li>
-            <li>Find All in File/Selection</li>
-            <li>Replace All in File/Selection</li>
-            <li>Select Paragraph</li>
-            <li>Twiddle Selection</li>
-            <li>Enhanced Column Selection Mode (TextMate inspired)</li>
-        </ul>"""
+      Add usage instructions, plugin logo, and custom keymap"""
 }
 test {
     useJUnitPlatform()

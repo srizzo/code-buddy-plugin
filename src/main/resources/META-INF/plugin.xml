@@ -4,20 +4,47 @@
     <vendor url="https://github.com/srizzo/code-buddy-plugin">Samuel Rizzo</vendor>
 
     <description><![CDATA[
-        CodeBuddy Plugin for IntelliJ.
+
+        <p>Enhanced text editing capabilities, inspired by TextMate.</p>
+
+        <h3>Headless Find &amp; Replace (no Editor Search Controls)</h3>
 
         <ul>
-            <li>Use Selection for Find</li>
-            <li>Use Selection for Replace</li>
-            <li>Find All in File/Selection</li>
-            <li>Replace All in File/Selection</li>
-            <li>Select Paragraph</li>
-            <li>Twiddle Selection</li>
-            <li>Enhanced Column Selection Mode (TextMate inspired)</li>
+            <li>Use Selection for Find (&#x2318;E)</li>
+            <li>Use Selection for Replace (&#x21E7;&#x2318;E)</li>
+            <li>Find All (&#x21E7;&#x2318;F)</li>
+            <li>Replace (&#x2325;&#x2318;G)</li>
+            <li>Replace All in Selection (&#x2303;&#x21E7;&#x2318;G)</li>
         </ul>
 
+        <h3>Enhanced/Quick Column Selection Mode</h3>
 
-    ]]></description>
+        <ul>
+            <li>When text is selected, press &#x2325; to toggle between Selection &rarr; Block Selection</li>
+            <li>Crosshair cursor when Column Selection Mode is active</li>
+            <li>Exit Column Selection Mode by pressing arrow up, down, &#x2303;, &#x21E7;, or &#x2318;.</li>
+            <li>Press arrow up or down to return to single cursor</li>
+        </ul>
+
+        <h3>Text Selection</h3>
+
+        <ul>
+            <li>Select Paragraph (&#x2303;&#x2325;P)</li>
+        </ul>
+
+        <h3>Text Manipulation</h3>
+
+        <ul>
+            <li>Twiddle (&#x2303;T) - Twiddle/swap/cycle between selected words</li>
+        </ul>
+
+        <h3>Keymap</h3>
+
+        <ul>
+            <li>TextMate inspired shortcuts</li>
+        </ul>
+
+        ]]></description>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -26,6 +53,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="io.github.srizzo.codebuddy.columnmode.CrosshairCursorOnColumnModeUpdater"
                         preload="notHeadless"/>
+        <bundledKeymap file="CodeBuddy (macOS).xml"/>
     </extensions>
 
     <actions>
