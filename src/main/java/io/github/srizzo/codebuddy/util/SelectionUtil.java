@@ -158,13 +158,16 @@ public class SelectionUtil {
     public static TextRange getEnclosingTypingPairs(CharSequence contents, TextRange candidateTextRange, TextRange currentSelectionTextRange) {
         if (candidateTextRange.getLength() < 2) return null;
 
+        char candidateStartingChar = contents.charAt(candidateTextRange.getStartOffset());
         char candidateEndingChar = contents.charAt(candidateTextRange.getEndOffset() - 1);
 
         if (!TYPING_PAIRS.containsKey(candidateEndingChar)) return null;
 
+
+
         Character matchingStartingChar = TYPING_PAIRS.get(candidateEndingChar);
 
-        for (int i = candidateTextRange.getStartOffset(); i <= currentSelectionTextRange.getStartOffset(); i++) {
+        for (int i = currentSelectionTextRange.getStartOffset(); i >= candidateTextRange.getStartOffset(); i--) {
             if (contents.charAt(i) == matchingStartingChar) {
                 TextRange innerSelection = TextRange.create(i + 1, candidateTextRange.getEndOffset() - 1);
                 TextRange outerSelection = TextRange.create(i, candidateTextRange.getEndOffset());

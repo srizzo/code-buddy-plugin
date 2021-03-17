@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'io.github.srizzo'
-version '0.0.2'
+version '0.0.3'
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add Select Enclosing Typing Pairs Action"""
+      Make Enhanced Column Selection opt-in in the CodeBuddy preferences pane and don't assign CodeBuddy action to the default keymap"""
 }
 test {
     useJUnitPlatform()

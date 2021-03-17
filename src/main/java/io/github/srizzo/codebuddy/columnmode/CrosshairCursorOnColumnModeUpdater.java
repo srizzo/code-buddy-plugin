@@ -1,12 +1,14 @@
 package io.github.srizzo.codebuddy.columnmode;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.EditorEventMulticaster;
 import com.intellij.openapi.editor.ex.EditorEventMulticasterEx;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.util.ui.UIUtil;
+import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -15,22 +17,18 @@ import java.beans.PropertyChangeListener;
 import java.util.Objects;
 
 @Service
-final public class CrosshairCursorOnColumnModeUpdater implements PropertyChangeListener, Disposable {
-
+final public class CrosshairCursorOnColumnModeUpdater implements PropertyChangeListener {
     public CrosshairCursorOnColumnModeUpdater() {
         EditorEventMulticaster multicaster = EditorFactory.getInstance().getEventMulticaster();
         if (multicaster instanceof EditorEventMulticasterEx) {
             ((EditorEventMulticasterEx) multicaster).
-                    addPropertyChangeListener(this, this);
+                    addPropertyChangeListener(this, ApplicationManager.getApplication());
         }
-    }
-
-    private static EditorEx getEditor(@NotNull PropertyChangeEvent e) {
-        return (EditorEx) e.getSource();
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        if (!CodeBuddySettingsState.getInstance().crosshairCursorOnColumnSelectionModeStatus) return;
         if (!EditorEx.PROP_COLUMN_MODE.equals(evt.getPropertyName())) return;
 
         EditorEx editor = getEditor(evt);
@@ -41,7 +39,7 @@ final public class CrosshairCursorOnColumnModeUpdater implements PropertyChangeL
         }
     }
 
-    @Override
-    public void dispose() {
+    private static EditorEx getEditor(@NotNull PropertyChangeEvent e) {
+        return (EditorEx) e.getSource();
     }
 }

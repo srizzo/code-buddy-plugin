@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actions.TextComponentEditorAction;
+import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
 import io.github.srizzo.codebuddy.util.RunActionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,13 +23,16 @@ public class RemoveSecondaryCaretsAction extends TextComponentEditorAction {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
     }
 
+    public static final boolean DONT_STOP = false;
+
     public RemoveSecondaryCaretsAction() {
         super(new RemoveSecondaryCaretsAction.Handler());
     }
 
     private static boolean handleEvent(AWTEvent event) {
-        boolean stop = false;
-        if (!(event instanceof KeyEvent)) return stop;
+        if (!CodeBuddySettingsState.getInstance().arrowUpAndDownReturnToSingleCursorStatus) return DONT_STOP;
+        if (!(event instanceof KeyEvent)) return DONT_STOP;
+
         KeyEvent keyEvent = (KeyEvent) event;
 
         if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
@@ -39,7 +43,7 @@ public class RemoveSecondaryCaretsAction extends TextComponentEditorAction {
             }
         }
 
-        return stop;
+        return DONT_STOP;
     }
 
     private static class Handler extends EditorActionHandler {

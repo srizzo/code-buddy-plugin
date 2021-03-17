@@ -9,6 +9,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actions.TextComponentEditorAction;
 import com.intellij.openapi.editor.ex.EditorEx;
+import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
 import io.github.srizzo.codebuddy.util.BlockSelectionUtil;
 import io.github.srizzo.codebuddy.util.RunActionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -24,13 +25,16 @@ public class EnterColumnModeAction extends TextComponentEditorAction {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
     }
 
+    public static final boolean DONT_STOP = false;
+
     public EnterColumnModeAction() {
         super(new EnterColumnModeAction.Handler());
     }
 
     private static boolean handleEvent(AWTEvent event) {
-        boolean stop = false;
-        if (!(event instanceof KeyEvent)) return stop;
+        if (!CodeBuddySettingsState.getInstance().holdingModifierActivatesColumnSelectionModeStatus) return DONT_STOP;
+
+        if (!(event instanceof KeyEvent)) return DONT_STOP;
         KeyEvent keyEvent = (KeyEvent) event;
 
         if (keyEvent.getID() == KeyEvent.KEY_PRESSED &&
@@ -39,7 +43,13 @@ public class EnterColumnModeAction extends TextComponentEditorAction {
                     ActionPlaces.KEYBOARD_SHORTCUT);
         }
 
-        return stop;
+        if (keyEvent.getID() == KeyEvent.KEY_RELEASED &&
+                keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
+            RunActionUtil.runAction(keyEvent, ExitColumnModeAction.ACTION_EXIT_COLUMN_MODE_ACTION,
+                    ActionPlaces.KEYBOARD_SHORTCUT);
+        }
+
+        return DONT_STOP;
     }
 
     private static class Handler extends EditorActionHandler {

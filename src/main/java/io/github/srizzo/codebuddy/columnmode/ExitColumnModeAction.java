@@ -11,6 +11,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actions.TextComponentEditorAction;
 import com.intellij.openapi.editor.ex.EditorEx;
+import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
 import io.github.srizzo.codebuddy.util.BlockSelectionUtil;
 import io.github.srizzo.codebuddy.util.RunActionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -20,26 +21,23 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class ExitColumnModeAction extends TextComponentEditorAction {
-    private static final String ACTION_EXIT_COLUMN_MODE_ACTION = "io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction";
+    public static final String ACTION_EXIT_COLUMN_MODE_ACTION = "io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction";
 
     static {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
     }
+
+    public static final boolean DONT_STOP = false;
 
     public ExitColumnModeAction() {
         super(new ExitColumnModeAction.Handler());
     }
 
     private static boolean handleEvent(AWTEvent event) {
-        boolean stop = false;
-        if (!(event instanceof KeyEvent)) return stop;
-        KeyEvent keyEvent = (KeyEvent) event;
+        if (!CodeBuddySettingsState.getInstance().modifiersExitColumnSelectionModeStatus) return DONT_STOP;
+        if (!(event instanceof KeyEvent)) return DONT_STOP;
 
-        if (keyEvent.getID() == KeyEvent.KEY_RELEASED &&
-                keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
-            RunActionUtil.runAction(keyEvent, ACTION_EXIT_COLUMN_MODE_ACTION,
-                    ActionPlaces.KEYBOARD_SHORTCUT);
-        }
+        KeyEvent keyEvent = (KeyEvent) event;
 
         if (keyEvent.getID() == KeyEvent.KEY_PRESSED &&
                 keyEvent.getKeyCode() != BlockSelectionUtil.getMultiCaretActionKeyCode()) {
@@ -47,7 +45,7 @@ public class ExitColumnModeAction extends TextComponentEditorAction {
                     ActionPlaces.KEYBOARD_SHORTCUT);
         }
 
-        return stop;
+        return DONT_STOP;
     }
 
     @Override

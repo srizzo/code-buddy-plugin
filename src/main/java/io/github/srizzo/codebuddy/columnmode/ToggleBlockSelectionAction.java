@@ -9,6 +9,7 @@ import com.intellij.openapi.actionSystem.ToggleAction;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.project.DumbAware;
+import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
 import io.github.srizzo.codebuddy.util.BlockSelectionUtil;
 import io.github.srizzo.codebuddy.util.RunActionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -23,16 +24,19 @@ public class ToggleBlockSelectionAction extends ToggleAction implements DumbAwar
 
     private static final AtomicBoolean actionStarted = new AtomicBoolean(false);
     private static final AtomicLong actionStartedAt = new AtomicLong(0);
+    private static final boolean DONT_STOP = false;
 
     static {
-        IdeEventQueue.getInstance().addDispatcher(event -> handleIdeEvent(event), ApplicationManager.getApplication());
+        IdeEventQueue.getInstance().addDispatcher(event -> handle(event), ApplicationManager.getApplication());
     }
 
     public ToggleBlockSelectionAction() {
         this.setEnabledInModalContext(true);
     }
 
-    private static boolean handleIdeEvent(AWTEvent event) {
+    private static boolean handle(AWTEvent event) {
+        if (!CodeBuddySettingsState.getInstance().toggleBlockSelectionOnModifierKeyPressStatus) return DONT_STOP;
+
         if (event instanceof KeyEvent) {
             KeyEvent keyEvent = (KeyEvent) event;
             if (keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
@@ -54,7 +58,7 @@ public class ToggleBlockSelectionAction extends ToggleAction implements DumbAwar
             }
         }
 
-        return false;
+        return DONT_STOP;
     }
 
     private static EditorEx getEditor(@NotNull AnActionEvent e) {
