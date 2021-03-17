@@ -17,6 +17,7 @@ Enhanced text editing capabilities, inspired by TextMate.
 
 ### Text Selection
   - Select Paragraph (&#x2303;&#x2325;P)
+  - Select Enclosing Typing Pairs (&#x21E7;&#x2318;B)
 
 ### Text Manipulation
   - Twiddle (&#x2303;T) - Twiddle/swap/cycle between selected words

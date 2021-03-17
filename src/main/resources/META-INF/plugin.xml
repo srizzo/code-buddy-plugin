@@ -30,6 +30,7 @@
 
         <ul>
             <li>Select Paragraph (&#x2303;&#x2325;P)</li>
+            <li>Select Enclosing Typing Pairs (&#x21E7;&#x2318;B)</li>
         </ul>
 
         <h3>Text Manipulation</h3>
@@ -58,9 +59,16 @@
 
     <actions>
         <action id="CodeBuddySelectParagraph"
-                class="io.github.srizzo.codebuddy.selectparagraph.SelectParagraphAction"
+                class="io.github.srizzo.codebuddy.select.SelectParagraphAction"
                 text="Select Paragraph">
             <keyboard-shortcut first-keystroke="meta alt p" keymap="$default"/>
+            <add-to-group group-id="EditorActions"/>
+        </action>
+
+        <action id="CodeBuddySelectEnclosingTypingPairs"
+                class="io.github.srizzo.codebuddy.select.SelectEnclosingTypingPairsAction"
+                text="Select Enclosing Typing Pairs">
+            <keyboard-shortcut first-keystroke="ctrl shift b" keymap="$default"/>
             <add-to-group group-id="EditorActions"/>
         </action>
 

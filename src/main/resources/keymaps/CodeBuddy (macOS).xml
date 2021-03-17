@@ -18,7 +18,9 @@
     </action>
     <action id="Back">
         <keyboard-shortcut first-keystroke="meta open_bracket"/>
-        <mouse-shortcut keystroke="button4"/>
+    </action>
+    <action id="CodeBuddySelectEnclosingTypingPairs">
+        <keyboard-shortcut first-keystroke="ctrl shift b"/>
     </action>
     <action id="CollapseAllRegions">
         <keyboard-shortcut first-keystroke="shift meta subtract"/>
