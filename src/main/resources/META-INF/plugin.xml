@@ -20,7 +20,7 @@
     </ul>
     <h3>Text Manipulation</h3>
     <ul>
-      <li>Twiddle - &#x2303;T) - Twiddle/swap/cycle between selected words<sup>1</sup></li>
+      <li>Twiddle - &#x2303;T - Twiddle/swap/cycle between selected words<sup>1</sup></li>
     </ul>
     <h3>CodeBuddy Keymap</h3>
     <ul>
@@ -57,21 +57,21 @@
   </extensions>
 
   <actions>
-    <action id="CodeBuddySelectParagraph"
+    <action id="io.github.srizzo.codebuddy.select.SelectParagraphAction"
             class="io.github.srizzo.codebuddy.select.SelectParagraphAction"
             text="Select Paragraph">
       <keyboard-shortcut first-keystroke="ctrl alt p" keymap="CodeBuddy (macOS)" />
       <add-to-group group-id="EditorActions" />
     </action>
 
-    <action id="CodeBuddySelectEnclosingTypingPairs"
+    <action id="io.github.srizzo.codebuddy.select.SelectEnclosingTypingPairsAction"
             class="io.github.srizzo.codebuddy.select.SelectEnclosingTypingPairsAction"
             text="Select Enclosing Typing Pairs">
       <keyboard-shortcut first-keystroke="meta shift b" keymap="CodeBuddy (macOS)" />
       <add-to-group group-id="EditorActions" />
     </action>
 
-    <action id="CodeBuddyTwiddleAction"
+    <action id="io.github.srizzo.codebuddy.twiddle.TwiddleAction"
             class="io.github.srizzo.codebuddy.twiddle.TwiddleAction"
             text="Twiddle"
             description="Twiddle">
@@ -82,17 +82,17 @@
             text="CodeBuddy Toggle Block Selection"
             class="io.github.srizzo.codebuddy.columnmode.ToggleBlockSelectionAction" />
 
-    <action id="io.github.srizzo.codebuddy.columnmode.EnterColumnModeAction"
+    <action id="io.github.srizzo.codebuddy.columnmode.EnterTemporaryColumnModeAction"
             text="CodeBuddy Enter Column Mode"
-            class="io.github.srizzo.codebuddy.columnmode.EnterColumnModeAction" />
+            class="io.github.srizzo.codebuddy.columnmode.EnterTemporaryColumnModeAction" />
 
-    <action id="io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction"
+    <action id="io.github.srizzo.codebuddy.columnmode.ExitTemporaryColumnModeAction"
             text="CodeBuddy Exit Column Mode"
-            class="io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction" />
+            class="io.github.srizzo.codebuddy.columnmode.ExitTemporaryColumnModeAction" />
 
-    <action id="io.github.srizzo.codebuddy.columnmode.RemoveSecondaryCaretsAction"
+    <action id="io.github.srizzo.codebuddy.columnmode.ToSingleCaretAction"
             text="CodeBuddy Remove Secondary Carets"
-            class="io.github.srizzo.codebuddy.columnmode.RemoveSecondaryCaretsAction" />
+            class="io.github.srizzo.codebuddy.columnmode.ToSingleCaretAction" />
 
     <group id="CodeBuddyFindMenuAdditionsGroup">
       <action id="io.github.srizzo.codebuddy.findreplace.UseSelectionForFindAction"

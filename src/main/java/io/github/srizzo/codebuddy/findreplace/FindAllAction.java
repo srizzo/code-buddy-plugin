@@ -22,7 +22,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.LightweightHint;
 import io.github.srizzo.codebuddy.CodeBuddyBundle;
 import io.github.srizzo.codebuddy.util.FindAndReplaceUtil;
-import io.github.srizzo.codebuddy.util.SelectionUtil;
+import io.github.srizzo.codebuddy.util.ParagraphSelectionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,7 +69,7 @@ public class FindAllAction extends EditorAction {
 
             List<FindResult> results = new ArrayList<>();
             CharSequence documentContents = editor.getDocument().getImmutableCharSequence();
-            TextRange[] selectionRanges = SelectionUtil.getSelectionRanges(editor);
+            TextRange[] selectionRanges = ParagraphSelectionUtil.getSelectionRanges(editor);
             TextRange[] rangesToSearchIn = getRangesToSearchIn(editor, selectionRanges, stringToFind);
 
             for (TextRange textRange : rangesToSearchIn) {

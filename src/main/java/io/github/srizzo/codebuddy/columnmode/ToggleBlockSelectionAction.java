@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class ToggleBlockSelectionAction extends ToggleAction implements DumbAware, LightEditCompatible {
-    private static final String ACTION_TOGGLE_MULTI_CARET_ACTION = "io.github.srizzo.codebuddy.columnmode.ToggleBlockSelectionAction";
+    private static final String ACTION_TOGGLE_MULTI_CARET_ACTION = ToggleBlockSelectionAction.class.getName();
 
     private static final AtomicBoolean actionStarted = new AtomicBoolean(false);
     private static final AtomicLong actionStartedAt = new AtomicLong(0);

@@ -5,7 +5,7 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actions.TextComponentEditorAction;
-import io.github.srizzo.codebuddy.util.SelectionUtil;
+import io.github.srizzo.codebuddy.util.ParagraphSelectionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +20,7 @@ public class SelectParagraphAction extends TextComponentEditorAction {
         }
 
         public void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
-            SelectionUtil.selectParagraphAtCaret(caret);
+            ParagraphSelectionUtil.selectParagraphAtCaret(caret);
         }
     }
 }

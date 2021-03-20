@@ -17,7 +17,7 @@ Enhanced text editing capabilities, inspired by TextMate.
 
 ### Text Manipulation
 
-- Twiddle - &#x2303;T) - Twiddle/swap/cycle between selected words<sup>1</sup>
+- Twiddle - &#x2303;T - Twiddle/swap/cycle between selected words<sup>1</sup>
 
 ### CodeBuddy Keymap
 

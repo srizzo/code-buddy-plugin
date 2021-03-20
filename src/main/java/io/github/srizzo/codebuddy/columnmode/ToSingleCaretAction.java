@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actions.TextComponentEditorAction;
+import com.intellij.openapi.editor.ex.EditorEx;
 import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
 import io.github.srizzo.codebuddy.util.RunActionUtil;
 import org.jetbrains.annotations.NotNull;
@@ -16,17 +17,16 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class RemoveSecondaryCaretsAction extends TextComponentEditorAction {
-    private static final String ACTION_EXIT_COLUMN_MODE_ACTION = "io.github.srizzo.codebuddy.columnmode.RemoveSecondaryCaretsAction";
+public class ToSingleCaretAction extends TextComponentEditorAction {
+    public static final boolean DONT_STOP = false;
+    private static final String ACTION_EXIT_COLUMN_MODE_ACTION = ToSingleCaretAction.class.getName();
 
     static {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
     }
 
-    public static final boolean DONT_STOP = false;
-
-    public RemoveSecondaryCaretsAction() {
-        super(new RemoveSecondaryCaretsAction.Handler());
+    public ToSingleCaretAction() {
+        super(new ToSingleCaretAction.Handler());
     }
 
     private static boolean handleEvent(AWTEvent event) {
@@ -35,7 +35,7 @@ public class RemoveSecondaryCaretsAction extends TextComponentEditorAction {
 
         KeyEvent keyEvent = (KeyEvent) event;
 
-        if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
+        if (keyEvent.getID() == KeyEvent.KEY_PRESSED && keyEvent.getModifiersEx() == 0) {
             switch (keyEvent.getKeyCode()) {
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_DOWN:
@@ -54,6 +54,7 @@ public class RemoveSecondaryCaretsAction extends TextComponentEditorAction {
         public void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
             if (!editor.isColumnMode()) {
                 editor.getCaretModel().removeSecondaryCarets();
+                ((EditorEx) editor).setColumnMode(false);
             }
         }
     }

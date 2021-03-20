@@ -1,54 +1,14 @@
 package io.github.srizzo.codebuddy.util;
 
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.editor.ex.util.EditorUtil;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiUtilCore;
-import com.intellij.refactoring.actions.BaseRefactoringAction;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.Arrays;
 
-public class SelectionUtil {
-    public static final Map<Character, Character> TYPING_PAIRS = new HashMap<>();
-
-    static {
-        SelectionUtil.TYPING_PAIRS.put('\'', '\'');
-        SelectionUtil.TYPING_PAIRS.put('"', '"');
-        SelectionUtil.TYPING_PAIRS.put('`', '`');
-        SelectionUtil.TYPING_PAIRS.put(']', '[');
-        SelectionUtil.TYPING_PAIRS.put(')', '(');
-        SelectionUtil.TYPING_PAIRS.put('}', '{');
-        SelectionUtil.TYPING_PAIRS.put('>', '<');
-    }
-
-    public static void selectEnclosingTypingPairs(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
-        PsiElement element = getElementAtCaret(dataContext);
-        if (element == null) return;
-
-        Document document = editor.getDocument();
-        PsiDocumentManager.getInstance(editor.getProject()).commitDocument(document);
-        CharSequence contents = document.getImmutableCharSequence();
-
-        Stream<PsiElement> parentElements = getTextParents(element);
-
-        Optional<TextRange> result = parentElements
-                .filter(candidate -> enclosesCurrentSelection(candidate.getTextRange(), TextRange.create(caret.getSelectionStart(), caret.getSelectionEnd())))
-                .map(candidate -> getEnclosingTypingPairs(contents, candidate.getTextRange(), TextRange.create(caret.getSelectionStart(), caret.getSelectionEnd())))
-                .filter(Objects::nonNull)
-                .findFirst();
-
-        result.ifPresent(textRange -> caret.setSelection(textRange.getStartOffset(), textRange.getEndOffset()));
-    }
-
+public class ParagraphSelectionUtil {
     public static void selectParagraphAtCaret(@NotNull Caret caret) {
         Editor editor = caret.getEditor();
         int caretLineNumber = caret.getLogicalPosition().line;
@@ -147,51 +107,5 @@ public class SelectionUtil {
                 .toArray(String[]::new);
     }
 
-    public static Stream<PsiElement> getTextParents(PsiElement element) {
-        return Stream.iterate(element, it -> it.getParent()).takeWhile(SelectionUtil::hasTextParent);
-    }
 
-    public static boolean hasTextParent(PsiElement psiElement) {
-        return psiElement.getParent() != null && psiElement.getParent().getTextRange() != null;
-    }
-
-    public static TextRange getEnclosingTypingPairs(CharSequence contents, TextRange candidateTextRange, TextRange currentSelectionTextRange) {
-        if (candidateTextRange.getLength() < 2) return null;
-
-        char candidateStartingChar = contents.charAt(candidateTextRange.getStartOffset());
-        char candidateEndingChar = contents.charAt(candidateTextRange.getEndOffset() - 1);
-
-        if (!TYPING_PAIRS.containsKey(candidateEndingChar)) return null;
-
-
-
-        Character matchingStartingChar = TYPING_PAIRS.get(candidateEndingChar);
-
-        for (int i = currentSelectionTextRange.getStartOffset(); i >= candidateTextRange.getStartOffset(); i--) {
-            if (contents.charAt(i) == matchingStartingChar) {
-                TextRange innerSelection = TextRange.create(i + 1, candidateTextRange.getEndOffset() - 1);
-                TextRange outerSelection = TextRange.create(i, candidateTextRange.getEndOffset());
-
-                if (innerSelection.contains(currentSelectionTextRange) && !innerSelection.equals(currentSelectionTextRange))
-                    return innerSelection;
-
-                if (outerSelection.contains(currentSelectionTextRange) && !outerSelection.equals(currentSelectionTextRange))
-                    return outerSelection;
-            }
-        }
-
-        return null;
-    }
-
-    public static boolean enclosesCurrentSelection(TextRange candidateTextRange, TextRange currentSelectionTextRange) {
-        return candidateTextRange.contains(currentSelectionTextRange) && !candidateTextRange.equals(currentSelectionTextRange);
-    }
-
-    public static PsiElement getElementAtCaret(@NotNull DataContext dataContext) {
-        Editor editor = CommonDataKeys.EDITOR.getData(dataContext);
-        PsiFile psiFile = PsiUtilCore.getTemplateLanguageFile(CommonDataKeys.PSI_FILE.getData(dataContext));
-        if (editor == null || psiFile == null) return null;
-
-        return BaseRefactoringAction.getElementAtCaret(editor, psiFile);
-    }
 }

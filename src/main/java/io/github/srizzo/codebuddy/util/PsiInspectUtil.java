@@ -5,10 +5,11 @@ import com.intellij.psi.PsiElement;
 public class PsiInspectUtil {
 
     public static String inspect(PsiElement element) {
-        if (element == null) return "(null)";
+        if (element == null) return "(null) " + element.getClass().getSimpleName();
+        if (element.getTextLength() <= 0) return "(empty) " + element.getClass().getSimpleName();
 
-        String displayText = element.getText().replaceAll(  "\n", "\\\\n"   ).substring(0, Math.min(element.getTextLength(), 50)) + "";
-        return lineNumber(element) + ": " + element.getClass().getSimpleName() + " [" + element + "] \"" + displayText + "\"";
+        String displayText = element.getText().replaceAll("\n", "\\\\n").substring(0, Math.min(element.getTextLength(), 50)) + "";
+        return lineNumber(element) + ": " + displayText + " " + element.getClass().getSimpleName();
     }
 
     public static int lineNumber(PsiElement element) {

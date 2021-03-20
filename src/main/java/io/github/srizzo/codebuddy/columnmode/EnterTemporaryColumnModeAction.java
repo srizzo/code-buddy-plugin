@@ -18,17 +18,16 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class EnterColumnModeAction extends TextComponentEditorAction {
-    public static final String ACTION_ENTER_COLUMN_MODE_ACTION = "io.github.srizzo.codebuddy.columnmode.EnterColumnModeAction";
+public class EnterTemporaryColumnModeAction extends TextComponentEditorAction {
+    public static final String ACTION_ENTER_COLUMN_MODE_ACTION = EnterTemporaryColumnModeAction.class.getName();
+    public static final boolean DONT_STOP = false;
 
     static {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
     }
 
-    public static final boolean DONT_STOP = false;
-
-    public EnterColumnModeAction() {
-        super(new EnterColumnModeAction.Handler());
+    public EnterTemporaryColumnModeAction() {
+        super(new EnterTemporaryColumnModeAction.Handler());
     }
 
     private static boolean handleEvent(AWTEvent event) {
@@ -40,12 +39,6 @@ public class EnterColumnModeAction extends TextComponentEditorAction {
         if (keyEvent.getID() == KeyEvent.KEY_PRESSED &&
                 keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
             RunActionUtil.runAction(keyEvent, ACTION_ENTER_COLUMN_MODE_ACTION,
-                    ActionPlaces.KEYBOARD_SHORTCUT);
-        }
-
-        if (keyEvent.getID() == KeyEvent.KEY_RELEASED &&
-                keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
-            RunActionUtil.runAction(keyEvent, ExitColumnModeAction.ACTION_EXIT_COLUMN_MODE_ACTION,
                     ActionPlaces.KEYBOARD_SHORTCUT);
         }
 

@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class ExitColumnModeAction extends TextComponentEditorAction {
-    public static final String ACTION_EXIT_COLUMN_MODE_ACTION = "io.github.srizzo.codebuddy.columnmode.ExitColumnModeAction";
+public class ExitTemporaryColumnModeAction extends TextComponentEditorAction {
+    public static final String ACTION_EXIT_COLUMN_MODE_ACTION = ExitTemporaryColumnModeAction.class.getName();
 
     static {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
@@ -29,18 +29,18 @@ public class ExitColumnModeAction extends TextComponentEditorAction {
 
     public static final boolean DONT_STOP = false;
 
-    public ExitColumnModeAction() {
-        super(new ExitColumnModeAction.Handler());
+    public ExitTemporaryColumnModeAction() {
+        super(new ExitTemporaryColumnModeAction.Handler());
     }
 
     private static boolean handleEvent(AWTEvent event) {
-        if (!CodeBuddySettingsState.getInstance().modifiersExitColumnSelectionModeStatus) return DONT_STOP;
-        if (!(event instanceof KeyEvent)) return DONT_STOP;
+        if (!CodeBuddySettingsState.getInstance().holdingModifierActivatesColumnSelectionModeStatus) return DONT_STOP;
 
+        if (!(event instanceof KeyEvent)) return DONT_STOP;
         KeyEvent keyEvent = (KeyEvent) event;
 
-        if (keyEvent.getID() == KeyEvent.KEY_PRESSED &&
-                keyEvent.getKeyCode() != BlockSelectionUtil.getMultiCaretActionKeyCode()) {
+        if (keyEvent.getID() == KeyEvent.KEY_RELEASED &&
+                keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
             RunActionUtil.runAction(keyEvent, ACTION_EXIT_COLUMN_MODE_ACTION,
                     ActionPlaces.KEYBOARD_SHORTCUT);
         }

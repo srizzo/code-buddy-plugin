@@ -1,6 +1,5 @@
 package io.github.srizzo.codebuddy.columnmode;
 
-import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.editor.EditorFactory;
@@ -26,6 +25,10 @@ final public class CrosshairCursorOnColumnModeUpdater implements PropertyChangeL
         }
     }
 
+    private static EditorEx getEditor(@NotNull PropertyChangeEvent e) {
+        return (EditorEx) e.getSource();
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (!CodeBuddySettingsState.getInstance().crosshairCursorOnColumnSelectionModeStatus) return;
@@ -37,9 +40,5 @@ final public class CrosshairCursorOnColumnModeUpdater implements PropertyChangeL
         } else {
             UIUtil.setCursor(editor.getContentComponent(), Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
-    }
-
-    private static EditorEx getEditor(@NotNull PropertyChangeEvent e) {
-        return (EditorEx) e.getSource();
     }
 }

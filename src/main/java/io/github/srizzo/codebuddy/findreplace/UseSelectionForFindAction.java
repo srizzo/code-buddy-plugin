@@ -8,7 +8,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.util.text.StringUtil;
 import io.github.srizzo.codebuddy.util.FindAndReplaceUtil;
-import io.github.srizzo.codebuddy.util.SelectionUtil;
+import io.github.srizzo.codebuddy.util.ParagraphSelectionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +29,7 @@ public class UseSelectionForFindAction extends AnAction {
         final @Nullable FindManager findManager = FindAndReplaceUtil.getFindManager(editor);
         if (findManager == null) return;
 
-        String[] selectedTexts = SelectionUtil.getSelectedTexts(editor);
+        String[] selectedTexts = ParagraphSelectionUtil.getSelectedTexts(editor);
 
         final boolean isRegularExpressionsSearch;
         final String textForFind;
