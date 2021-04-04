@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class ExitTemporaryColumnModeAction extends TextComponentEditorAction {
-    public static final String ACTION_EXIT_COLUMN_MODE_ACTION = ExitTemporaryColumnModeAction.class.getName();
+    public static final String EXIT_TEMPORARY_COLUMN_MODE_ACTION_ID = ExitTemporaryColumnModeAction.class.getName();
 
     static {
         IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
@@ -41,7 +41,7 @@ public class ExitTemporaryColumnModeAction extends TextComponentEditorAction {
 
         if (keyEvent.getID() == KeyEvent.KEY_RELEASED &&
                 keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
-            RunActionUtil.runAction(keyEvent, ACTION_EXIT_COLUMN_MODE_ACTION,
+            RunActionUtil.runAction(keyEvent, EXIT_TEMPORARY_COLUMN_MODE_ACTION_ID,
                     ActionPlaces.KEYBOARD_SHORTCUT);
         }
 

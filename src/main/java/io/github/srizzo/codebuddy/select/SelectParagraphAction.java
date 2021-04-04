@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SelectParagraphAction extends TextComponentEditorAction {
+    public static String SELECT_PARAGRAPH_ACTION_ID = SelectParagraphAction.class.getName();
+
     public SelectParagraphAction() {
         super(new SelectParagraphAction.Handler());
     }

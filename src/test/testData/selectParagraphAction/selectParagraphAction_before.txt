@@ -1,0 +1,14 @@
+Est fortis rector, cesaris.
+Magisters resistere, tanquam grandis adiurator.
+Cur elevatus crescere?
+Eheu, camerarius rector!
+
+Ubi est lotus lactea?
+<caret>Bursa fortis usus est.
+Elogiums unda, tanquam nobilis caesium.
+A falsis, deus dexter lixa.
+
+Medicinas sunt cedriums de altus brodium.
+Vae, camerarius bursa!
+Audax pars velox consumeres exemplar est.
+Byssuss velum in quadrata!

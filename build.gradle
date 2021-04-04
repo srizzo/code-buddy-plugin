@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'io.github.srizzo'
-version '0.0.4'
+version '0.0.4.1'
 
 repositories {
     mavenCentral()
@@ -25,10 +25,10 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Make Enhanced Column Selection opt-in in the CodeBuddy preferences pane and don't assign CodeBuddy action to the default keymap"""
+      Remove experimental API usage and other minor adjustments"""
 }
 test {
-    useJUnitPlatform()
+    systemProperty "idea.home.path", "/Applications/IntelliJ IDEA.app/Contents"
 }
 runIde {
     jvmArgs "-Djdk.attach.allowAttachSelf=true"

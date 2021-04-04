@@ -1,7 +1,6 @@
 package io.github.srizzo.codebuddy.columnmode;
 
 import com.intellij.ide.IdeEventQueue;
-import com.intellij.ide.lightEdit.LightEditCompatible;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -19,7 +18,7 @@ import java.awt.event.KeyEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class ToggleBlockSelectionAction extends ToggleAction implements DumbAware, LightEditCompatible {
+public class ToggleBlockSelectionAction extends ToggleAction implements DumbAware {
     private static final String ACTION_TOGGLE_MULTI_CARET_ACTION = ToggleBlockSelectionAction.class.getName();
 
     private static final AtomicBoolean actionStarted = new AtomicBoolean(false);

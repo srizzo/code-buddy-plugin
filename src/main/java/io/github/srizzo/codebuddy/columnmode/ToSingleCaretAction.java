@@ -52,6 +52,8 @@ public class ToSingleCaretAction extends TextComponentEditorAction {
         }
 
         public void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
+            if (!(editor instanceof EditorEx)) return;
+
             if (!editor.isColumnMode()) {
                 editor.getCaretModel().removeSecondaryCarets();
                 ((EditorEx) editor).setColumnMode(false);

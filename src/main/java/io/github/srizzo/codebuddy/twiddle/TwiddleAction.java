@@ -6,11 +6,13 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
+import io.github.srizzo.codebuddy.columnmode.ExitTemporaryColumnModeAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class TwiddleAction extends AnAction {
+    public static final String TWIDDLE_ACTION_ID = TwiddleAction.class.getName();
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {

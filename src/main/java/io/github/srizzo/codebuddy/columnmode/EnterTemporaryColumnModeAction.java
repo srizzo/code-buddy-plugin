@@ -19,7 +19,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class EnterTemporaryColumnModeAction extends TextComponentEditorAction {
-    public static final String ACTION_ENTER_COLUMN_MODE_ACTION = EnterTemporaryColumnModeAction.class.getName();
+    public static final String ENTER_TEMPORARY_COLUMN_MODE_ACTION_ID = EnterTemporaryColumnModeAction.class.getName();
     public static final boolean DONT_STOP = false;
 
     static {
@@ -38,7 +38,7 @@ public class EnterTemporaryColumnModeAction extends TextComponentEditorAction {
 
         if (keyEvent.getID() == KeyEvent.KEY_PRESSED &&
                 keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
-            RunActionUtil.runAction(keyEvent, ACTION_ENTER_COLUMN_MODE_ACTION,
+            RunActionUtil.runAction(keyEvent, ENTER_TEMPORARY_COLUMN_MODE_ACTION_ID,
                     ActionPlaces.KEYBOARD_SHORTCUT);
         }
 

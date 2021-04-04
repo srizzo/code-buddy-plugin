@@ -1,0 +1,1 @@
+<selection><caret>selection 2</caret></selection> <selection><caret>selection 1</caret></selection>
