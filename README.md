@@ -2,6 +2,8 @@
 
 Enhanced text editing capabilities, inspired by TextMate.
 
+Install from https://plugins.jetbrains.com/plugin/16252-codebuddy.
+
 ### Headless Find &amp; Replace (no Editor Search Controls)
 
 - Use Selection for Find - &#x2318;E<sup>1</sup>
