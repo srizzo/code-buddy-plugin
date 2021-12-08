@@ -12,6 +12,8 @@ public class UseSelectionForReplaceAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
+
+        // TODO fails on terminal
         final Editor editor = event.getRequiredData(CommonDataKeys.EDITOR);
         final String replacement = StringUtil.defaultIfEmpty(editor.getSelectionModel().getSelectedText(), "");
 

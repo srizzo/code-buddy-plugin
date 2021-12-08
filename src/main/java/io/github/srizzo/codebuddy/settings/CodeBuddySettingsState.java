@@ -1,7 +1,7 @@
 package io.github.srizzo.codebuddy.settings;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
@@ -20,7 +20,7 @@ public class CodeBuddySettingsState implements PersistentStateComponent<CodeBudd
     public boolean crosshairCursorOnColumnSelectionModeStatus = false;
 
     public static CodeBuddySettingsState getInstance() {
-        return ServiceManager.getService(CodeBuddySettingsState.class);
+        return ApplicationManager.getApplication().getService(CodeBuddySettingsState.class);
     }
 
     @Nullable

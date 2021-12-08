@@ -2,8 +2,10 @@ package io.github.srizzo.codebuddy.util;
 
 import com.intellij.ide.DataManager;
 import com.intellij.ide.actions.ActionsCollector;
+import com.intellij.lang.Language;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.AnActionResult;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
 import com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher;
@@ -30,11 +32,10 @@ public class RunActionUtil {
         action.update(anActionEvent);
         if (!anActionEvent.getPresentation().isEnabled()) return false;
 
-        ex.fireBeforeActionPerformed(action, anActionEvent.getDataContext(), anActionEvent);
+        ex.fireBeforeActionPerformed(action, anActionEvent);
         action.actionPerformed(anActionEvent);
-        ex.fireAfterActionPerformed(action, anActionEvent.getDataContext(), anActionEvent);
+        ex.fireAfterActionPerformed(action, anActionEvent, AnActionResult.PERFORMED);
 
-        ActionsCollector.getInstance().record(actionId, anActionEvent.getInputEvent(), action.getClass());
         return true;
     }
 
