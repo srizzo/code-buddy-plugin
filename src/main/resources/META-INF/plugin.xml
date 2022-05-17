@@ -3,43 +3,6 @@
   <name>CodeBuddy</name>
   <vendor url="https://github.com/srizzo/code-buddy-plugin">Samuel Rizzo</vendor>
 
-  <description><![CDATA[
-    <p>Enhanced text editing capabilities, inspired by TextMate.</p>
-    <h3>Headless Find &amp; Replace (no Editor Search Controls)</h3>
-    <ul>
-      <li>Use Selection for Find - &#x2318;E<sup>1</sup></li>
-      <li>Use Selection for Replace - &#x21E7;&#x2318;E<sup>1</sup></li>
-      <li>Find All - &#x21E7;&#x2318;F<sup>1</sup></li>
-      <li>Replace - &#x2325;&#x2318;G<sup>1</sup></li>
-      <li>Replace All in Selection - &#x2303;&#x21E7;&#x2318;G<sup>1</sup></li>
-    </ul>
-    <h3>Text Selection</h3>
-    <ul>
-      <li>Select Paragraph - &#x2303;&#x2325;P<sup>1</sup></li>
-      <li>Select Enclosing Typing Pairs - &#x21E7;&#x2318;B<sup>1</sup></li>
-    </ul>
-    <h3>Text Manipulation</h3>
-    <ul>
-      <li>Twiddle - &#x2303;T - Twiddle/swap/cycle between selected words<sup>1</sup></li>
-    </ul>
-    <h3>CodeBuddy Keymap</h3>
-    <ul>
-      <li>TextMate inspired shortcuts</li>
-    </ul>
-    <h3>Enhanced/Quick Column Selection Mode</h3>
-    <p>Activate on Settings | Editor | CodeBuddy</p>
-    <ul>
-      <li>When text is selected, press &#x2325; to toggle between Selection &rarr; Block Selection</li>
-      <li>Crosshair cursor when Column Selection Mode is active</li>
-      <li>Exit Column Selection Mode by pressing arrow up, down, &#x2303;, &#x21E7;, or &#x2318;.</li>
-      <li>Press arrow up or down to return to single cursor</li>
-    </ul>
-
-    <footer>
-      <small><sup>1</sup> When using the CodeBuddy Keymap</small>
-    </footer>
-    ]]></description>
-
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
   <depends>com.intellij.modules.platform</depends>
