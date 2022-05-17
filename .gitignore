@@ -1,6 +1,7 @@
-.idea/
-.gradle/
-build/
+.gradle
+.idea
+.qodana
+build
 .envrc
 TODO.md
 
