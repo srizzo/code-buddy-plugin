@@ -3,6 +3,8 @@
 # CodeBuddy Changelog
 
 ## [Unreleased]
+### Added
+- Compatibility with IntelliJ 2022.3
 
 ## [0.0.9]
 ### Added
