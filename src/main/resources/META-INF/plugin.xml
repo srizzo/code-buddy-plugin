@@ -8,8 +8,6 @@
   <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="io.github.srizzo.codebuddy.columnmode.CrosshairCursorOnColumnModeUpdater"
-                    preload="notHeadless" />
     <bundledKeymap id="CodeBuddy (macOS)" file="CodeBuddy (macOS).xml" />
 
     <applicationConfigurable parentId="editor"
