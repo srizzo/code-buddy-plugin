@@ -2,8 +2,6 @@ package io.github.srizzo.codebuddy.test;
 
 import com.intellij.testFramework.LightProjectDescriptor;
 import com.intellij.testFramework.fixtures.BasePlatformTestCase;
-import io.github.srizzo.codebuddy.test.ProjectDescriptors;
-import org.junit.jupiter.api.BeforeEach;
 
 public abstract class BaseTestCase extends BasePlatformTestCase {
     @Override

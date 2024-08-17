@@ -1,7 +1,10 @@
 .gradle
 .idea
+.intellijPlatform
 .qodana
 build
 .envrc
 TODO.md
 
+codebuddy.ipr
+codebuddy.iws
