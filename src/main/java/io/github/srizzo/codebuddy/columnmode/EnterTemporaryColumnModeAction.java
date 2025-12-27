@@ -1,59 +1,37 @@
 package io.github.srizzo.codebuddy.columnmode;
 
-import com.intellij.ide.IdeEventQueue;
-import com.intellij.openapi.actionSystem.ActionPlaces;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.editor.actions.TextComponentEditorAction;
 import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.project.DumbAwareAction;
 import io.github.srizzo.codebuddy.settings.CodeBuddySettingsState;
-import io.github.srizzo.codebuddy.util.BlockSelectionUtil;
-import io.github.srizzo.codebuddy.util.RunActionUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
+public class EnterTemporaryColumnModeAction extends DumbAwareAction {
 
-public class EnterTemporaryColumnModeAction extends TextComponentEditorAction {
-    public static final String ENTER_TEMPORARY_COLUMN_MODE_ACTION_ID = EnterTemporaryColumnModeAction.class.getName();
-    public static final boolean DONT_STOP = false;
-
-    static {
-        IdeEventQueue.getInstance().addDispatcher(event -> handleEvent(event), ApplicationManager.getApplication());
+    private static EditorEx getEditor(@NotNull AnActionEvent e) {
+        Editor editor = e.getData(CommonDataKeys.EDITOR);
+        return editor instanceof EditorEx ? (EditorEx) editor : null;
     }
 
-    public EnterTemporaryColumnModeAction() {
-        super(new EnterTemporaryColumnModeAction.Handler());
+    @Override
+    public void actionPerformed(@NotNull AnActionEvent e) {
+        if (!CodeBuddySettingsState.getInstance().holdingModifierActivatesColumnSelectionModeStatus) {
+            return;
+        }
+        
+        EditorEx editor = getEditor(e);
+        if (editor == null) return;
+
+        editor.setColumnMode(true);
     }
 
-    private static boolean handleEvent(AWTEvent event) {
-        if (!CodeBuddySettingsState.getInstance().holdingModifierActivatesColumnSelectionModeStatus) return DONT_STOP;
-
-        if (!(event instanceof KeyEvent)) return DONT_STOP;
-        KeyEvent keyEvent = (KeyEvent) event;
-
-        if (keyEvent.getID() == KeyEvent.KEY_PRESSED &&
-                keyEvent.getKeyCode() == BlockSelectionUtil.getMultiCaretActionKeyCode()) {
-            RunActionUtil.runAction(keyEvent, ENTER_TEMPORARY_COLUMN_MODE_ACTION_ID,
-                    ActionPlaces.KEYBOARD_SHORTCUT);
-        }
-
-        return DONT_STOP;
-    }
-
-    private static class Handler extends EditorActionHandler {
-        Handler() {
-            super(false);
-        }
-
-        public void doExecute(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
-            if (editor instanceof EditorEx) {
-                ((EditorEx) editor).setColumnMode(true);
-            }
-        }
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        EditorEx editor = getEditor(e);
+        boolean enabled = editor != null && !editor.isOneLineMode() && !editor.isColumnMode() &&
+                         CodeBuddySettingsState.getInstance().holdingModifierActivatesColumnSelectionModeStatus;
+        e.getPresentation().setEnabledAndVisible(enabled);
     }
 }

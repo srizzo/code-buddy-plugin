@@ -118,6 +118,11 @@ public class BlockSelectionUtil {
     }
 
     public static int getMultiCaretActionKeyModifier() {
-        return SystemInfo.isMac ? InputEvent.ALT_MASK : InputEvent.CTRL_MASK;
+        return SystemInfo.isMac ? InputEvent.ALT_DOWN_MASK : InputEvent.CTRL_DOWN_MASK;
+    }
+
+    public static boolean isBlockSelectionActive() {
+        // For now, always return true when handler is set - we'll track this properly later
+        return true;
     }
 }

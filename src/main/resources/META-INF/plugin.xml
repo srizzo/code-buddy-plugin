@@ -15,6 +15,9 @@
                              id="io.github.srizzo.codebuddy.settings.CodeBuddySettingsConfigurable"
                              displayName="CodeBuddy" />
     <applicationService serviceImplementation="io.github.srizzo.codebuddy.settings.CodeBuddySettingsState" />
+    <applicationService serviceImplementation="io.github.srizzo.codebuddy.columnmode.CrosshairCursorOnColumnModeUpdater" />
+    
+    <postStartupActivity implementation="io.github.srizzo.codebuddy.columnmode.ColumnModeStartupActivity" />
   </extensions>
 
   <actions>

@@ -1,13 +1,8 @@
 package io.github.srizzo.codebuddy.util;
 
 import com.intellij.ide.DataManager;
-import com.intellij.ide.actions.ActionsCollector;
-import com.intellij.lang.Language;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.AnActionResult;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.ex.ActionManagerEx;
+import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher;
 import com.intellij.openapi.wm.IdeFocusManager;
 import org.jetbrains.annotations.NotNull;
@@ -17,10 +12,17 @@ import java.awt.event.KeyEvent;
 
 public class RunActionUtil {
     public static boolean runAction(KeyEvent event, String actionId, String actionPlace) {
-        ActionManagerEx ex = ActionManagerEx.getInstanceEx();
-        AnAction action = ex.getAction(actionId);
-        if (action == null) return false;
+        if (!ApplicationManager.getApplication().isDispatchThread()) {
+            return false;
+        }
 
+        ActionManager actionManager = ActionManager.getInstance();
+        AnAction action = actionManager.getAction(actionId);
+        if (action == null) {
+            return false;
+        }
+
+        // Check modal context
         if (!action.isEnabledInModalContext()) {
             Window focusedWindow = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
             if (focusedWindow != null && IdeKeyEventDispatcher.isModalContext(focusedWindow)) {
@@ -28,22 +30,41 @@ public class RunActionUtil {
             }
         }
 
-        AnActionEvent anActionEvent = AnActionEvent.createFromAnAction(action, event, actionPlace, getDataContext());
+        // Get proper data context
+        DataContext dataContext = getDataContext();
+
+        // Create AnActionEvent using the deprecated but functional API
+        // TODO: Replace with modern API when available
+        AnActionEvent anActionEvent = AnActionEvent.createFromAnAction(
+            action, event, actionPlace, dataContext);
+
+        // Update action presentation
         action.update(anActionEvent);
-        if (!anActionEvent.getPresentation().isEnabled()) return false;
+        if (!anActionEvent.getPresentation().isEnabled()) {
+            return false;
+        }
 
-        ex.fireBeforeActionPerformed(action, anActionEvent);
-        action.actionPerformed(anActionEvent);
-        ex.fireAfterActionPerformed(action, anActionEvent, AnActionResult.PERFORMED);
-
-        return true;
+        // Execute action using ActionManager's modern execution mechanism
+        try {
+            actionManager.tryToExecute(action, event, null, actionPlace, true);
+            return true;
+        } catch (Exception e) {
+            // Fallback: direct execution
+            try {
+                action.actionPerformed(anActionEvent);
+                return true;
+            } catch (Exception ex) {
+                return false;
+            }
+        }
     }
 
-    private static @NotNull
-    DataContext getDataContext() {
+    private static @NotNull DataContext getDataContext() {
         IdeFocusManager focusManager = IdeFocusManager.findInstance();
         Component focusedComponent = focusManager.getFocusOwner();
-        return DataManager.getInstance().getDataContext(focusedComponent);
+        if (focusedComponent != null) {
+            return DataManager.getInstance().getDataContext(focusedComponent);
+        }
+        return DataContext.EMPTY_CONTEXT;
     }
-
 }

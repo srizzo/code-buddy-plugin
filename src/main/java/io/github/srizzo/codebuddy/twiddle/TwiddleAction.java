@@ -16,7 +16,8 @@ public class TwiddleAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
-        final Editor editor = event.getRequiredData(CommonDataKeys.EDITOR);
+        final Editor editor = event.getData(CommonDataKeys.EDITOR);
+        if (editor == null) return;
 
         WriteCommandAction.runWriteCommandAction(editor.getProject(), () -> {
             if (!editor.getCaretModel().supportsMultipleCarets()) return;

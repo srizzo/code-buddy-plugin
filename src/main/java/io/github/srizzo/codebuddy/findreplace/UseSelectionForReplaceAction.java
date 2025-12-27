@@ -14,7 +14,8 @@ public class UseSelectionForReplaceAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
 
         // TODO fails on terminal
-        final Editor editor = event.getRequiredData(CommonDataKeys.EDITOR);
+        final Editor editor = event.getData(CommonDataKeys.EDITOR);
+        if (editor == null) return;
         final String replacement = StringUtil.defaultIfEmpty(editor.getSelectionModel().getSelectedText(), "");
 
         FindAndReplaceUtil.getAllFindModels(editor).stream().forEach(findModel -> {
