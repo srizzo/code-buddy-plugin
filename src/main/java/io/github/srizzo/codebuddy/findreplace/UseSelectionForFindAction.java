@@ -24,7 +24,8 @@ public class UseSelectionForFindAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
-        final @NotNull Editor editor = event.getRequiredData(CommonDataKeys.EDITOR);
+        final Editor editor = event.getData(CommonDataKeys.EDITOR);
+        if (editor == null) return;
 
         final @Nullable FindManager findManager = FindAndReplaceUtil.getFindManager(editor);
         if (findManager == null) return;
